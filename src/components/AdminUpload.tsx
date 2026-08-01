@@ -23,9 +23,6 @@ export default function AdminUpload({ onUploadSuccess }: AdminUploadProps) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [form, setForm] = useState<UploadFormData>({
     title: "",
-    zone: "",
-    job: "",
-    preset: "",
     tags: "",
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -140,9 +137,6 @@ export default function AdminUpload({ onUploadSuccess }: AdminUploadProps) {
       const fd = new FormData();
       fd.append("file", uploadFile);
       fd.append("title", form.title || file.name.replace(/\.[^/.]+$/, ""));
-      fd.append("zone", form.zone);
-      fd.append("job", form.job);
-      fd.append("preset", form.preset);
       fd.append("tags", form.tags);
 
       const res = await fetch("/api/upload", {
@@ -159,7 +153,7 @@ export default function AdminUpload({ onUploadSuccess }: AdminUploadProps) {
       addNotification("success", `"${form.title || file.name}" uploaded successfully.`);
       setFile(null);
       setPreview(null);
-      setForm({ title: "", zone: "", job: "", preset: "", tags: "" });
+      setForm({ title: "", tags: "" });
       onUploadSuccess();
     } catch (err: any) {
       addNotification("error", err?.message || "Upload failed. Check Cloudinary configuration.");
@@ -317,18 +311,11 @@ export default function AdminUpload({ onUploadSuccess }: AdminUploadProps) {
           >
             {(
               [
-                { key: "title", label: "TITLE", placeholder: "Starfall" },
-                { key: "zone", label: "ZONE", placeholder: "Il Mheg" },
-                { key: "job", label: "JOB", placeholder: "Astrologian" },
-                {
-                  key: "preset",
-                  label: "PRESET",
-                  placeholder: "Neneko_Pastel_v3",
-                },
+                { key: "title", label: "TITLE / NOM DE LA PHOTO", placeholder: "ex: Starfall" },
                 {
                   key: "tags",
-                  label: "TAGS (comma separated)",
-                  placeholder: "Au Ra, Dawntrail, Pastel",
+                  label: "TAGS (séparés par des virgules)",
+                  placeholder: "ex: Edited, Regular, OC, Portrait",
                 },
               ] as const
             ).map(({ key, label, placeholder }) => (

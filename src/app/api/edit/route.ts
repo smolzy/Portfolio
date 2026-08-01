@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { public_id, title, zone, job, preset, tags } = body;
+    const { public_id, title, tags } = body;
 
     if (!public_id) {
       return NextResponse.json({ error: "Missing public_id" }, { status: 400 });
@@ -27,9 +27,9 @@ export async function POST(request: NextRequest) {
     // 1. Replace tags on Cloudinary asset
     await cloudinary.uploader.replace_tag(tagsArray, [public_id]);
 
-    // 2. Update custom context metadata (title, zone, job, preset)
+    // 2. Update custom context metadata (title)
     await cloudinary.uploader.add_context(
-      `title=${title || ""}|zone=${zone || ""}|job=${job || ""}|preset=${preset || ""}`,
+      `title=${title || ""}`,
       [public_id]
     );
 

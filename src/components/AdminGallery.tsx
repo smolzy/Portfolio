@@ -20,9 +20,6 @@ export default function AdminGallery({ images, onDelete, onUpdate }: AdminGaller
   // Form state for edit modal
   const [editForm, setEditForm] = useState({
     title: "",
-    zone: "",
-    job: "",
-    preset: "",
     tags: "",
   });
   const [savingEdit, setSavingEdit] = useState(false);
@@ -55,9 +52,6 @@ export default function AdminGallery({ images, onDelete, onUpdate }: AdminGaller
     setEditingImage(img);
     setEditForm({
       title: img.title || "",
-      zone: img.zone || "",
-      job: img.job || "",
-      preset: img.preset || "",
       tags: img.tags.join(", "),
     });
     setEditError(null);
@@ -81,9 +75,6 @@ export default function AdminGallery({ images, onDelete, onUpdate }: AdminGaller
         body: JSON.stringify({
           public_id: editingImage.public_id,
           title: editForm.title,
-          zone: editForm.zone,
-          job: editForm.job,
-          preset: editForm.preset,
           tags: tagsArray,
         }),
       });
@@ -96,9 +87,6 @@ export default function AdminGallery({ images, onDelete, onUpdate }: AdminGaller
       const updatedImg: GposeImage = {
         ...editingImage,
         title: editForm.title,
-        zone: editForm.zone,
-        job: editForm.job,
-        preset: editForm.preset,
         tags: tagsArray,
       };
 
@@ -364,7 +352,7 @@ export default function AdminGallery({ images, onDelete, onUpdate }: AdminGaller
                       <input
                         className="y2k-input"
                         type="text"
-                        placeholder="ex: Gpose, Astrologian, Il Mheg, Edited"
+                        placeholder="ex: Edited, Regular, OC, Portrait"
                         value={editForm.tags}
                         onChange={(e) =>
                           setEditForm((prev) => ({ ...prev, tags: e.target.value }))
@@ -372,94 +360,26 @@ export default function AdminGallery({ images, onDelete, onUpdate }: AdminGaller
                       />
                     </div>
 
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-                      <div>
-                        <label
-                          style={{
-                            display: "block",
-                            fontFamily: "var(--font-mono)",
-                            fontSize: "9px",
-                            color: "var(--silver-dim)",
-                            marginBottom: "4px",
-                          }}
-                        >
-                          TITRE
-                        </label>
-                        <input
-                          className="y2k-input"
-                          type="text"
-                          value={editForm.title}
-                          onChange={(e) =>
-                            setEditForm((prev) => ({ ...prev, title: e.target.value }))
-                          }
-                        />
-                      </div>
-                      <div>
-                        <label
-                          style={{
-                            display: "block",
-                            fontFamily: "var(--font-mono)",
-                            fontSize: "9px",
-                            color: "var(--silver-dim)",
-                            marginBottom: "4px",
-                          }}
-                        >
-                          ZONE FFXIV
-                        </label>
-                        <input
-                          className="y2k-input"
-                          type="text"
-                          value={editForm.zone}
-                          onChange={(e) =>
-                            setEditForm((prev) => ({ ...prev, zone: e.target.value }))
-                          }
-                        />
-                      </div>
-                    </div>
-
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-                      <div>
-                        <label
-                          style={{
-                            display: "block",
-                            fontFamily: "var(--font-mono)",
-                            fontSize: "9px",
-                            color: "var(--silver-dim)",
-                            marginBottom: "4px",
-                          }}
-                        >
-                          JOB / CLASSE
-                        </label>
-                        <input
-                          className="y2k-input"
-                          type="text"
-                          value={editForm.job}
-                          onChange={(e) =>
-                            setEditForm((prev) => ({ ...prev, job: e.target.value }))
-                          }
-                        />
-                      </div>
-                      <div>
-                        <label
-                          style={{
-                            display: "block",
-                            fontFamily: "var(--font-mono)",
-                            fontSize: "9px",
-                            color: "var(--silver-dim)",
-                            marginBottom: "4px",
-                          }}
-                        >
-                          PRESET GSHADE
-                        </label>
-                        <input
-                          className="y2k-input"
-                          type="text"
-                          value={editForm.preset}
-                          onChange={(e) =>
-                            setEditForm((prev) => ({ ...prev, preset: e.target.value }))
-                          }
-                        />
-                      </div>
+                    <div>
+                      <label
+                        style={{
+                          display: "block",
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "9px",
+                          color: "var(--silver-dim)",
+                          marginBottom: "4px",
+                        }}
+                      >
+                        TITRE DE LA PHOTO
+                      </label>
+                      <input
+                        className="y2k-input"
+                        type="text"
+                        value={editForm.title}
+                        onChange={(e) =>
+                          setEditForm((prev) => ({ ...prev, title: e.target.value }))
+                        }
+                      />
                     </div>
                   </div>
 

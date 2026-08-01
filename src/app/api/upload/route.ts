@@ -26,9 +26,6 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get("file") as File;
     const title = (formData.get("title") as string) || "Untitled";
-    const zone = (formData.get("zone") as string) || "";
-    const job = (formData.get("job") as string) || "";
-    const preset = (formData.get("preset") as string) || "";
     const tagsRaw = (formData.get("tags") as string) || "";
 
     if (!file) {
@@ -55,7 +52,7 @@ export async function POST(request: NextRequest) {
         .upload_stream(
           {
             folder: FOLDER,
-            context: { title, zone, job, preset },
+            context: { title },
             tags,
           },
           (error, result) => {

@@ -87,41 +87,30 @@ export default function ImageCard({ image, onClick }: ImageCardProps) {
             >
               {image.title}
             </p>
-            <div
-              style={{
-                display: "flex",
-                gap: "6px",
-                flexWrap: "wrap",
-              }}
-            >
-              {image.zone?.trim() && (
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "9px",
-                    color: "var(--cyan)",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    opacity: 0.8,
-                  }}
-                >
-                  {image.zone}
-                </span>
-              )}
-              {image.job?.trim() && (
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "9px",
-                    color: "var(--silver-dim)",
-                    letterSpacing: "0.06em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {image.zone?.trim() ? `/ ${image.job}` : image.job}
-                </span>
-              )}
-            </div>
+            {image.tags.length > 0 && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: "4px",
+                  flexWrap: "wrap",
+                }}
+              >
+                {image.tags.map((t) => (
+                  <span
+                    key={t}
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "9px",
+                      color: "var(--cyan)",
+                      letterSpacing: "0.06em",
+                      opacity: 0.9,
+                    }}
+                  >
+                    #{t}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </motion.div>
       </div>
