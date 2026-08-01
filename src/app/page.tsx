@@ -197,15 +197,7 @@ export default function Home() {
             }}
           />
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr auto",
-              gap: "32px",
-              alignItems: "start",
-              maxWidth: "900px",
-            }}
-          >
+          <div className="hero-grid">
             {/* Left: name + bio */}
             <div>
               <p
@@ -255,16 +247,9 @@ export default function Home() {
               )}
             </div>
 
-            {/* Right: social cards */}
+            {/* Right / Bottom on mobile: social cards */}
             {about.socials.length > 0 && (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "6px",
-                  minWidth: "160px",
-                }}
-              >
+              <div>
                 <p
                   style={{
                     fontFamily: "var(--font-mono)",
@@ -272,11 +257,12 @@ export default function Home() {
                     color: "var(--silver-dim)",
                     letterSpacing: "0.12em",
                     textTransform: "uppercase",
-                    marginBottom: "4px",
+                    marginBottom: "8px",
                   }}
                 >
                   LINKS :
                 </p>
+                <div className="social-links-box">
                 {about.socials.map(
                   (s) =>
                     s.url &&
@@ -332,6 +318,7 @@ export default function Home() {
                       </a>
                     )
                 )}
+                </div>
               </div>
             )}
           </div>

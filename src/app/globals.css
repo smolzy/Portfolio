@@ -378,3 +378,39 @@ body {
   50% { height: 14px; }
 }
 
+/* ─── Hero Responsive Layout ────────────────────────────────────── */
+.hero-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 900px;
+}
+
+@media (min-width: 768px) {
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: start;
+  }
+}
+
+.social-links-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .social-links-box {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 6px;
+    width: auto;
+    min-width: 160px;
+  }
+}
+
+
