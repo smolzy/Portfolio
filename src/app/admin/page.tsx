@@ -88,6 +88,12 @@ export default function AdminPage() {
     setImages((prev) => prev.filter((img) => img.public_id !== publicId));
   };
 
+  const handleUpdate = (updatedImage: GposeImage) => {
+    setImages((prev) =>
+      prev.map((img) => (img.public_id === updatedImage.public_id ? updatedImage : img))
+    );
+  };
+
   const handleSaveProfile = async () => {
     setSavingProfile(true);
     try {
@@ -326,7 +332,7 @@ export default function AdminPage() {
                     LOADING...
                   </div>
                 ) : (
-                  <AdminGallery images={images} onDelete={handleDelete} />
+                  <AdminGallery images={images} onDelete={handleDelete} onUpdate={handleUpdate} />
                 )}
               </div>
             </Y2KFrame>
