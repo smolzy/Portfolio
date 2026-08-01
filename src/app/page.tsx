@@ -199,7 +199,12 @@ export default function Home() {
             }}
           />
 
-          <div className="hero-grid">
+          <motion.div
+            className="hero-grid"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
             {/* Left: name + bio */}
             <div>
               <p
@@ -233,7 +238,7 @@ export default function Home() {
                 <motion.p
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
                   style={{
                     fontFamily: "var(--font-sans)",
                     fontSize: "14px",
@@ -262,68 +267,70 @@ export default function Home() {
                     marginBottom: "8px",
                   }}
                 >
-                  LINKS :
+                  CONNECT
                 </p>
                 <div className="social-links-box">
-                {about.socials.map(
-                  (s) =>
-                    s.url &&
-                    s.url !== "https://" && (
-                      <a
-                        key={s.label}
-                        href={s.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                          padding: "7px 10px",
-                          background: "var(--bg-surface)",
-                          border: "1px solid var(--border-default)",
-                          borderRadius: "var(--radius-sm)",
-                          textDecoration: "none",
-                          transition: "all 0.15s",
-                          color: "var(--silver)",
-                        }}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLAnchorElement).style.borderColor =
-                            "var(--cyan)";
-                          (e.currentTarget as HTMLAnchorElement).style.color =
-                            "var(--cyan)";
-                          (
-                            e.currentTarget as HTMLAnchorElement
-                          ).style.background = "var(--cyan-dim)";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLAnchorElement).style.borderColor =
-                            "var(--border-default)";
-                          (e.currentTarget as HTMLAnchorElement).style.color =
-                            "var(--silver)";
-                          (
-                            e.currentTarget as HTMLAnchorElement
-                          ).style.background = "var(--bg-surface)";
-                        }}
-                      >
-                        <span style={{ fontSize: "13px", flexShrink: 0 }}>
-                          {ICON_MAP[s.icon] ?? "⌘"}
-                        </span>
-                        <span
+                  {about.socials.map(
+                    (s, index) =>
+                      s.url &&
+                      s.url !== "https://" && (
+                        <motion.a
+                          key={s.label}
+                          href={s.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          initial={{ opacity: 0, x: 12 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.15 + index * 0.05, duration: 0.4 }}
+                          whileHover={{ scale: 1.04, x: 2 }}
+                          whileTap={{ scale: 0.96 }}
                           style={{
-                            fontFamily: "var(--font-mono)",
-                            fontSize: "10px",
-                            letterSpacing: "0.06em",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            padding: "7px 12px",
+                            background: "var(--bg-surface)",
+                            border: "1px solid var(--border-default)",
+                            borderRadius: "var(--radius-sm)",
+                            textDecoration: "none",
+                            transition: "border-color 0.2s, color 0.2s, box-shadow 0.2s",
+                            color: "var(--silver)",
+                          }}
+                          onMouseEnter={(e) => {
+                            (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                              "var(--cyan)";
+                            (e.currentTarget as HTMLAnchorElement).style.color =
+                              "var(--cyan)";
+                            (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                              "0 0 12px var(--cyan-dim)";
+                          }}
+                          onMouseLeave={(e) => {
+                            (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                              "var(--border-default)";
+                            (e.currentTarget as HTMLAnchorElement).style.color =
+                              "var(--silver)";
+                            (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
                           }}
                         >
-                          {s.label}
-                        </span>
-                      </a>
-                    )
-                )}
+                          <span style={{ fontSize: "13px", flexShrink: 0, color: "var(--cyan)" }}>
+                            {ICON_MAP[s.icon] ?? "⌘"}
+                          </span>
+                          <span
+                            style={{
+                              fontFamily: "var(--font-mono)",
+                              fontSize: "10px",
+                              letterSpacing: "0.06em",
+                            }}
+                          >
+                            {s.label}
+                          </span>
+                        </motion.a>
+                      )
+                  )}
                 </div>
               </div>
             )}
-          </div>
+          </motion.div>
         </section>
 
         {/* ── Gallery ───────────────────────────────────────────────── */}

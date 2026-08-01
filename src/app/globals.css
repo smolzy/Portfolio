@@ -101,7 +101,7 @@ html[data-theme="light"] {
   --glow-subtle: 0 0 10px rgba(0, 85, 255, 0.06);
 }
 
-/* ─── Global Reset ──────────────────────────────────────────────── */
+/* ─── Global Reset ───────────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -110,310 +110,174 @@ html[data-theme="light"] {
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   background-color: var(--bg-void);
-  color: var(--white);
+  color: var(--silver);
   font-family: var(--font-sans);
-  font-weight: 300;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ─── Scrollbar Y2K ─────────────────────────────────────────────── */
+/* ─── Y2K Title Bar Component ────────────────────────────────────── */
+.y2k-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-default);
+  gap: 12px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* ─── Custom Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-void);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--border-accent);
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--cyan-mid);
+  background: var(--cyan);
 }
 
-/* ─── Tailwind Theme Extension ──────────────────────────────────── */
-@theme inline {
-  --color-background: var(--bg-void);
-  --color-foreground: var(--white);
-  --font-mono: var(--font-mono);
-  --font-sans: var(--font-sans);
-}
-
-/* ─── Masonry Grid ──────────────────────────────────────────────── */
-.masonry-grid {
-  column-count: 2;
-  column-gap: 12px;
-}
-
-@media (min-width: 640px) {
-  .masonry-grid {
-    column-count: 2;
-  }
-}
-
-@media (min-width: 900px) {
-  .masonry-grid {
-    column-count: 3;
-  }
-}
-
-@media (min-width: 1400px) {
-  .masonry-grid {
-    column-count: 4;
-  }
-}
-
-.masonry-item {
-  break-inside: avoid;
-  margin-bottom: 12px;
-  display: block;
-}
-
-/* ─── Y2K Chrome Border ─────────────────────────────────────────── */
-.chrome-border {
-  border: 1px solid var(--border-default);
-  position: relative;
-}
-
-.chrome-border::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 1px solid transparent;
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), transparent)
-    border-box;
-  pointer-events: none;
-}
-
-/* ─── Scan Lines Effect ─────────────────────────────────────────── */
-.scanlines::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.03) 2px,
-    rgba(0, 0, 0, 0.03) 4px
-  );
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* ─── Glitch Text ───────────────────────────────────────────────── */
-@keyframes glitch {
-  0%,
-  100% {
-    text-shadow: none;
-    transform: translateX(0);
-  }
-  20% {
-    text-shadow: -1px 0 var(--cyan);
-    transform: translateX(1px);
-  }
-  40% {
-    text-shadow: 1px 0 rgba(255, 0, 128, 0.8);
-    transform: translateX(-1px);
-  }
-  60% {
-    text-shadow: none;
-    transform: translateX(0);
-  }
-}
-
-.glitch:hover {
-  animation: glitch 0.3s steps(1) infinite;
-}
-
-/* ─── Noise Texture ─────────────────────────────────────────────── */
-.noise {
-  position: relative;
-}
-.noise::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ─── Y2K Window Titlebar ───────────────────────────────────────── */
-.y2k-titlebar {
-  background: linear-gradient(
-    90deg,
-    var(--bg-elevated) 0%,
-    var(--border-accent) 50%,
-    var(--bg-elevated) 100%
-  );
-  border-bottom: 1px solid var(--border-default);
+/* ─── Y2K Button Styles ──────────────────────────────────────────── */
+.y2k-btn {
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.05em;
-  color: var(--silver);
-  padding: 6px 10px;
-  display: flex;
+  letterSpacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 6px;
+  text-transform: uppercase;
 }
 
-/* ─── Input Styles ──────────────────────────────────────────────── */
+.y2k-btn-primary {
+  background: var(--cyan);
+  color: #000;
+  border: 1px solid var(--cyan);
+  font-weight: 700;
+  box-shadow: 0 0 10px var(--cyan-mid);
+}
+.y2k-btn-primary:hover {
+  box-shadow: 0 0 20px var(--cyan), inset 0 0 10px rgba(255,255,255,0.4);
+  transform: translateY(-2px);
+}
+
+.y2k-btn-ghost {
+  background: transparent;
+  color: var(--silver);
+  border: 1px solid var(--border-default);
+}
+.y2k-btn-ghost:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px var(--cyan-dim);
+}
+
+.y2k-btn-danger {
+  background: rgba(255, 60, 60, 0.15);
+  color: #ff5555;
+  border: 1px solid rgba(255, 60, 60, 0.4);
+}
+.y2k-btn-danger:hover {
+  background: rgba(255, 60, 60, 0.3);
+  box-shadow: 0 0 12px rgba(255, 60, 60, 0.4);
+}
+
+/* ─── Tag Pill Component ─────────────────────────────────────────── */
+.tag-pill {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+  color: var(--silver);
+  background: var(--bg-surface);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+.tag-pill:hover {
+  border-color: var(--cyan-mid);
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  transform: translateY(-1px);
+}
+.tag-pill.active {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  box-shadow: 0 0 10px var(--cyan-dim);
+  font-weight: 700;
+}
+
+/* ─── Inputs ─────────────────────────────────────────────────────── */
 .y2k-input {
+  width: 100%;
   background: var(--bg-void);
   border: 1px solid var(--border-default);
   color: var(--white);
   font-family: var(--font-mono);
   font-size: 12px;
   padding: 8px 12px;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  width: 100%;
   border-radius: var(--radius-sm);
+  outline: none;
+  transition: all 0.25s ease;
 }
-
 .y2k-input:focus {
   border-color: var(--cyan);
-  box-shadow: var(--glow-subtle), inset 0 0 8px rgba(0, 240, 255, 0.04);
+  box-shadow: 0 0 12px var(--cyan-dim);
 }
 
-.y2k-input::placeholder {
-  color: var(--silver-dim);
-}
-
-/* ─── Button Styles ─────────────────────────────────────────────── */
-.y2k-btn {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border: 1px solid var(--border-default);
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: all 0.2s;
+/* ─── Shimmer Card Effect ────────────────────────────────────────── */
+.image-card-wrapper {
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius-sm);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.y2k-btn::after {
+.image-card-wrapper::after {
   content: "";
   position: absolute;
-  inset: 0;
+  top: -50%;
+  left: -150%;
+  width: 100%;
+  height: 200%;
   background: linear-gradient(
-    135deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.03) 100%
+    60deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 80%
   );
+  transform: rotate(30deg);
+  transition: opacity 0.3s;
   pointer-events: none;
+  opacity: 0;
 }
 
-.y2k-btn-primary {
-  background: var(--cyan-dim);
-  border-color: var(--cyan);
-  color: var(--cyan);
+.image-card-wrapper:hover::after {
+  opacity: 1;
+  animation: shimmerSweep 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.y2k-btn-primary:hover {
-  background: rgba(0, 85, 255, 0.14);
-  box-shadow: var(--glow-cyan);
-}
-
-.y2k-btn-ghost {
-  background: transparent;
-  border-color: var(--border-accent);
-  color: var(--silver);
-}
-
-.y2k-btn-ghost:hover {
-  border-color: var(--silver);
-  color: var(--white);
-}
-
-.y2k-btn-danger {
-  background: rgba(255, 50, 80, 0.08);
-  border-color: rgba(255, 50, 80, 0.4);
-  color: rgba(255, 100, 120, 0.9);
-}
-
-.y2k-btn-danger:hover {
-  background: rgba(255, 50, 80, 0.15);
-  border-color: rgba(255, 50, 80, 0.7);
-  box-shadow: 0 0 15px rgba(255, 50, 80, 0.2);
-}
-
-/* ─── Lightbox Backdrop ─────────────────────────────────────────── */
-.lightbox-backdrop {
-  backdrop-filter: blur(8px) saturate(0.4);
-  background: rgba(13, 14, 18, 0.88);
-}
-
-/* ─── Tag pill ──────────────────────────────────────────────────── */
-.tag-pill {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border: 1px solid var(--border-default);
-  color: var(--silver-dim);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.15s;
-  background: transparent;
-}
-
-.tag-pill:hover,
-.tag-pill.active {
-  border-color: var(--cyan);
-  color: var(--cyan);
-  background: var(--cyan-dim);
-}
-
-/* ─── Grid Admin ────────────────────────────────────────────────── */
-.admin-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 10px;
-}
-
-/* ─── Upload Drop Zone ──────────────────────────────────────────── */
-.drop-zone {
-  border: 1px dashed var(--border-accent);
-  transition: all 0.2s;
-  background: var(--bg-surface);
-}
-
-.drop-zone.drag-over {
-  border-color: var(--cyan);
-  background: var(--cyan-dim);
-  box-shadow: inset 0 0 30px rgba(0, 85, 255, 0.04);
-}
-
-/* ─── Fade-in animation ─────────────────────────────────────────── */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  animation: fadeIn 0.4s ease forwards;
+@keyframes shimmerSweep {
+  0% { left: -150%; }
+  100% { left: 150%; }
 }
 
 /* ─── Equalizer Animation ───────────────────────────────────────── */
@@ -435,15 +299,15 @@ body {
 
 @keyframes eq1 {
   0%, 100% { height: 4px; }
-  50% { height: 12px; }
+  50% { height: 14px; }
 }
 @keyframes eq2 {
-  0%, 100% { height: 12px; }
+  0%, 100% { height: 14px; }
   50% { height: 5px; }
 }
 @keyframes eq3 {
   0%, 100% { height: 6px; }
-  50% { height: 14px; }
+  50% { height: 16px; }
 }
 
 /* ─── Hero Responsive Layout ────────────────────────────────────── */
@@ -480,5 +344,3 @@ body {
     min-width: 160px;
   }
 }
-
-

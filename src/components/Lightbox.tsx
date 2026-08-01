@@ -229,7 +229,15 @@ export default function Lightbox({
           >
             {/* Title Bar */}
             <div className="y2k-titlebar">
-              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  flex: 1,
+                  minWidth: 0,
+                }}
+              >
                 <button
                   onClick={onClose}
                   style={{
@@ -269,6 +277,9 @@ export default function Lightbox({
                     letterSpacing: "0.12em",
                     textTransform: "uppercase",
                     color: "var(--silver-dim)",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
                 >
                   VIEWER_v2.5 — {image.title}
@@ -281,7 +292,14 @@ export default function Lightbox({
               </div>
 
               {/* Window Controls */}
-              <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "6px",
+                  alignItems: "center",
+                  flexShrink: 0,
+                }}
+              >
                 <button
                   onClick={() => setIsFullscreen(true)}
                   className="y2k-btn y2k-btn-ghost"

@@ -12,48 +12,56 @@ interface ImageCardProps {
 export default function ImageCard({ image, onClick }: ImageCardProps) {
   return (
     <motion.div
-      className="masonry-item chrome-border"
+      className="masonry-item image-card-wrapper"
       style={{
         cursor: "pointer",
         overflow: "hidden",
         borderRadius: "var(--radius-md)",
         position: "relative",
         background: "var(--bg-surface)",
+        border: "1px solid var(--border-subtle)",
       }}
       onClick={onClick}
-      whileHover={{ scale: 1.01 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
+      whileHover={{ scale: 1.02, y: -4 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 350, damping: 22 }}
     >
-      {/* Image */}
-      <div style={{ position: "relative", display: "block" }}>
-        <Image
-          src={image.secure_url}
-          alt={image.title}
-          width={image.width}
-          height={image.height}
-          style={{
-            width: "100%",
-            height: "auto",
-            display: "block",
-            objectFit: "contain",
-          }}
-          sizes="(max-width: 640px) 50vw, (max-width: 900px) 33vw, 25vw"
-        />
+      {/* Image with zoom effect */}
+      <div style={{ position: "relative", display: "block", overflow: "hidden" }}>
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Image
+            src={image.secure_url}
+            alt={image.title}
+            width={image.width}
+            height={image.height}
+            style={{
+              width: "100%",
+              height: "auto",
+              display: "block",
+              objectFit: "contain",
+            }}
+            sizes="(max-width: 640px) 50vw, (max-width: 900px) 33vw, 25vw"
+          />
+        </motion.div>
 
         {/* Hover overlay */}
         <motion.div
           initial={{ opacity: 0 }}
           whileHover={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.25 }}
           style={{
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(to top, rgba(13,14,18,0.9) 0%, rgba(13,14,18,0.3) 40%, transparent 70%)",
+              "linear-gradient(to top, rgba(13,14,18,0.92) 0%, rgba(13,14,18,0.4) 45%, transparent 75%)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
             padding: "14px",
+            pointerEvents: "none",
           }}
         >
           {/* Cyan accent line at top */}
@@ -66,7 +74,7 @@ export default function ImageCard({ image, onClick }: ImageCardProps) {
               height: "1px",
               background:
                 "linear-gradient(90deg, transparent, var(--cyan), transparent)",
-              opacity: 0.6,
+              opacity: 0.8,
             }}
           />
 
