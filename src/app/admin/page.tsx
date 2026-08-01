@@ -7,6 +7,7 @@ import Link from "next/link";
 import Y2KFrame from "@/components/Y2KFrame";
 import AdminUpload from "@/components/AdminUpload";
 import AdminGallery from "@/components/AdminGallery";
+import ThemeToggle from "@/components/ThemeToggle";
 import { GposeImage } from "@/types";
 
 type Tab = "upload" | "manage" | "profile";
@@ -140,7 +141,7 @@ export default function AdminPage() {
           alignItems: "center",
           justifyContent: "space-between",
           height: "56px",
-          background: "rgba(244,245,249,0.95)",
+          background: "var(--bg-overlay)",
           backdropFilter: "blur(12px)",
           position: "sticky",
           top: 0,
@@ -184,6 +185,7 @@ export default function AdminPage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <ThemeToggle />
           <Link
             href="/"
             style={{

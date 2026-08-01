@@ -119,19 +119,21 @@ export default function AdminGallery({ images, onDelete }: AdminGalleryProps) {
               >
                 {image.title}
               </p>
-              <p
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "9px",
-                  color: "var(--silver-dim)",
-                  marginBottom: "8px",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {image.zone || "—"} / {image.job || "—"}
-              </p>
+              {(image.zone?.trim() || image.job?.trim()) && (
+                <p
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "9px",
+                    color: "var(--silver-dim)",
+                    marginBottom: "8px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {[image.zone?.trim(), image.job?.trim()].filter(Boolean).join(" / ")}
+                </p>
+              )}
               <button
                 className={`y2k-btn ${confirmId === image.public_id ? "y2k-btn-danger" : "y2k-btn-ghost"}`}
                 style={{ width: "100%", fontSize: "9px", padding: "5px" }}

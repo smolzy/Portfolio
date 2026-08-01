@@ -4,6 +4,7 @@ import Gallery from "@/components/Gallery";
 import HyperspaceCanvas from "@/components/HyperspaceCanvas";
 import AudioPlayer from "@/components/AudioPlayer";
 import WelcomeModal from "@/components/WelcomeModal";
+import ThemeToggle from "@/components/ThemeToggle";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
@@ -74,7 +75,7 @@ export default function Home() {
             position: "sticky",
             top: 0,
             zIndex: 100,
-            background: "rgba(244,245,249,0.92)",
+            background: "var(--bg-overlay)",
             backdropFilter: "blur(12px)",
           }}
         >
@@ -158,6 +159,7 @@ export default function Home() {
                   </a>
                 )
             )}
+            <ThemeToggle />
             <Link
               href="/login"
               style={{

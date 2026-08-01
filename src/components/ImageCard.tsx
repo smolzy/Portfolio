@@ -94,7 +94,7 @@ export default function ImageCard({ image, onClick }: ImageCardProps) {
                 flexWrap: "wrap",
               }}
             >
-              {image.zone && (
+              {image.zone?.trim() && (
                 <span
                   style={{
                     fontFamily: "var(--font-mono)",
@@ -108,7 +108,7 @@ export default function ImageCard({ image, onClick }: ImageCardProps) {
                   {image.zone}
                 </span>
               )}
-              {image.job && (
+              {image.job?.trim() && (
                 <span
                   style={{
                     fontFamily: "var(--font-mono)",
@@ -118,7 +118,7 @@ export default function ImageCard({ image, onClick }: ImageCardProps) {
                     textTransform: "uppercase",
                   }}
                 >
-                  / {image.job}
+                  {image.zone?.trim() ? `/ ${image.job}` : image.job}
                 </span>
               )}
             </div>

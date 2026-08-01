@@ -200,10 +200,12 @@ export default function Lightbox({ image, onClose }: LightboxProps) {
                 }}
               >
                 <div>
-                  <MetaField label="TITLE" value={image.title} accent />
-                  <MetaField label="ZONE" value={image.zone || "—"} />
-                  <MetaField label="JOB" value={image.job || "—"} />
-                  <MetaField label="PRESET" value={image.preset || "—"} />
+                  {image.title?.trim() && (
+                    <MetaField label="TITLE" value={image.title} accent />
+                  )}
+                  {image.zone?.trim() && <MetaField label="ZONE" value={image.zone} />}
+                  {image.job?.trim() && <MetaField label="JOB" value={image.job} />}
+                  {image.preset?.trim() && <MetaField label="PRESET" value={image.preset} />}
                 </div>
                 <div>
                   {image.tags.length > 0 && (

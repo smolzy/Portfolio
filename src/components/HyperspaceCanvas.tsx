@@ -82,9 +82,13 @@ export default function HyperspaceCanvas() {
         const size = Math.max(0.15, progress * 2.2);
         const opacity = progress * 0.28;
 
-        // Dark navy streaks — visible on light background but unobtrusive
+        const currentAttr = document.documentElement.getAttribute("data-theme");
+        const isDark = currentAttr === "dark" || (!currentAttr && window.matchMedia("(prefers-color-scheme: dark)").matches);
+
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(18, 32, 100, ${opacity})`;
+        ctx.strokeStyle = isDark
+          ? `rgba(0, 240, 255, ${opacity * 1.4})`
+          : `rgba(18, 32, 100, ${opacity})`;
         ctx.lineWidth = size;
         ctx.moveTo(px, py);
         ctx.lineTo(sx, sy);

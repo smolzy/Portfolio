@@ -48,7 +48,7 @@ export default function WelcomeModal({
             position: "fixed",
             inset: 0,
             zIndex: 2000,
-            background: "rgba(244, 245, 249, 0.94)",
+            background: "var(--bg-overlay)",
             backdropFilter: "blur(16px) saturate(1.2)",
             display: "flex",
             alignItems: "center",

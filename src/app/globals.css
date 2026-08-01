@@ -3,7 +3,7 @@
 
 @import "tailwindcss";
 
-/* ─── Y2K Design Tokens (Light Pearl Chrome) ────────────────────── */
+/* ─── Y2K Design Tokens (Default System / Theme Overrides) ──────── */
 :root {
   --bg-void: #f4f5f9;
   --bg-surface: #ffffff;
@@ -31,6 +31,74 @@
   --radius-sm: 2px;
   --radius-md: 4px;
   --radius-lg: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-void: #0d0e12;
+    --bg-surface: #111318;
+    --bg-elevated: #16181f;
+    --bg-overlay: rgba(13, 14, 18, 0.95);
+
+    --border-subtle: #1e2028;
+    --border-default: #27272a;
+    --border-accent: #3a3a40;
+
+    --cyan: #00f0ff;
+    --cyan-dim: rgba(0, 240, 255, 0.12);
+    --cyan-mid: rgba(0, 240, 255, 0.4);
+    --silver: #c0c0c0;
+    --silver-dim: #6b7280;
+    --white: #f0f0f5;
+
+    --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.3),
+      0 0 60px rgba(0, 240, 255, 0.08);
+    --glow-subtle: 0 0 10px rgba(0, 240, 255, 0.1);
+  }
+}
+
+html[data-theme="dark"] {
+  --bg-void: #0d0e12;
+  --bg-surface: #111318;
+  --bg-elevated: #16181f;
+  --bg-overlay: rgba(13, 14, 18, 0.95);
+
+  --border-subtle: #1e2028;
+  --border-default: #27272a;
+  --border-accent: #3a3a40;
+
+  --cyan: #00f0ff;
+  --cyan-dim: rgba(0, 240, 255, 0.12);
+  --cyan-mid: rgba(0, 240, 255, 0.4);
+  --silver: #c0c0c0;
+  --silver-dim: #6b7280;
+  --white: #f0f0f5;
+
+  --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.3),
+    0 0 60px rgba(0, 240, 255, 0.08);
+  --glow-subtle: 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+html[data-theme="light"] {
+  --bg-void: #f4f5f9;
+  --bg-surface: #ffffff;
+  --bg-elevated: #fafbff;
+  --bg-overlay: rgba(244, 245, 249, 0.96);
+
+  --border-subtle: #eaecf2;
+  --border-default: #d4d6e0;
+  --border-accent: #b8bace;
+
+  --cyan: #0055ff;
+  --cyan-dim: rgba(0, 85, 255, 0.07);
+  --cyan-mid: rgba(0, 85, 255, 0.3);
+  --silver: #4a4d60;
+  --silver-dim: #8890a8;
+  --white: #0d0e1a;
+
+  --glow-cyan: 0 0 20px rgba(0, 85, 255, 0.12),
+    0 0 60px rgba(0, 85, 255, 0.04);
+  --glow-subtle: 0 0 10px rgba(0, 85, 255, 0.06);
 }
 
 /* ─── Global Reset ──────────────────────────────────────────────── */
