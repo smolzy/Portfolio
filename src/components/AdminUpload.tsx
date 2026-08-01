@@ -63,6 +63,68 @@ export default function AdminUpload({ onUploadSuccess }: AdminUploadProps) {
 
   const onDragLeave = () => setDragOver(false);
 
+  const compressImageIfNeeded = async (originalFile: File): Promise<File> => {
+    const MAX_TARGET_BYTES = 3.5 * 1024 * 1024; // 3.5 MB target for Vercel 4.5MB limit
+    if (originalFile.size <= MAX_TARGET_BYTES) {
+      return originalFile;
+    }
+
+    return new Promise((resolve) => {
+      const img = document.createElement("img");
+      const url = URL.createObjectURL(originalFile);
+
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+
+        const MAX_DIM = 3840;
+        if (width > MAX_DIM || height > MAX_DIM) {
+          if (width > height) {
+            height = Math.round((height * MAX_DIM) / width);
+            width = MAX_DIM;
+          } else {
+            width = Math.round((width * MAX_DIM) / height);
+            height = MAX_DIM;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return resolve(originalFile);
+
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const tryQuality = (q: number) => {
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) return resolve(originalFile);
+              if (blob.size <= MAX_TARGET_BYTES || q <= 0.45) {
+                const newName = originalFile.name.replace(/\.[^/.]+$/, "") + ".jpg";
+                resolve(new File([blob], newName, { type: "image/jpeg" }));
+              } else {
+                tryQuality(q - 0.1);
+              }
+            },
+            "image/jpeg",
+            q
+          );
+        };
+
+        tryQuality(0.92);
+      };
+
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        resolve(originalFile);
+      };
+
+      img.src = url;
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) {
@@ -72,8 +134,11 @@ export default function AdminUpload({ onUploadSuccess }: AdminUploadProps) {
 
     setUploading(true);
     try {
+      // Auto-compress heavy GPose screenshots client-side if file > 3.5MB
+      const uploadFile = await compressImageIfNeeded(file);
+
       const fd = new FormData();
-      fd.append("file", file);
+      fd.append("file", uploadFile);
       fd.append("title", form.title || file.name.replace(/\.[^/.]+$/, ""));
       fd.append("zone", form.zone);
       fd.append("job", form.job);
