@@ -85,15 +85,19 @@ export default function AdminUpload({ onUploadSuccess }: AdminUploadProps) {
         body: fd,
       });
 
-      if (!res.ok) throw new Error("Upload failed");
+      const resData = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(resData.error || `Upload failed (Status ${res.status})`);
+      }
 
       addNotification("success", `"${form.title || file.name}" uploaded successfully.`);
       setFile(null);
       setPreview(null);
       setForm({ title: "", zone: "", job: "", preset: "", tags: "" });
       onUploadSuccess();
-    } catch {
-      addNotification("error", "Upload failed. Check Cloudinary configuration.");
+    } catch (err: any) {
+      addNotification("error", err?.message || "Upload failed. Check Cloudinary configuration.");
     } finally {
       setUploading(false);
     }
