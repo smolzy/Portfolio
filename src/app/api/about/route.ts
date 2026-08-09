@@ -3,6 +3,8 @@ import { promises as fs } from "fs";
 import path from "path";
 import { cookies } from "next/headers";
 
+export const dynamic = "force-dynamic";
+
 const DATA_FILE = path.join(process.cwd(), "src", "data", "about.json");
 
 export async function GET() {

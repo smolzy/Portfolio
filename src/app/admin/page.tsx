@@ -36,6 +36,7 @@ const ICON_OPTIONS = [
   { value: "bluesky", label: "Bluesky" },
   { value: "youtube", label: "YouTube" },
   { value: "tiktok", label: "TikTok" },
+  { value: "kofi", label: "Ko-fi" },
   { value: "link", label: "Autre lien" },
 ];
 

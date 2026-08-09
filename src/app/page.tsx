@@ -6,7 +6,7 @@ import AudioPlayer from "@/components/AudioPlayer";
 import WelcomeModal from "@/components/WelcomeModal";
 import ThemeToggle from "@/components/ThemeToggle";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { motion } from "motion/react";
 
 interface Social {
@@ -27,12 +27,17 @@ interface AboutData {
   bgm?: BgmData;
 }
 
-const ICON_MAP: Record<string, string> = {
+const ICON_MAP: Record<string, ReactNode> = {
   twitter: "𝕏",
   instagram: "◈",
   bluesky: "☁",
   youtube: "▶",
   tiktok: "◉",
+  kofi: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.143V14.28c.325.048 2.518.257 3.993-1.077 1.488-1.348 2.656-4.255 2.656-4.255zm-7.054 3.754H17.2V9.923h1.002c.983 0 1.583.565 1.583.565s.61 1.096.342 2.052c-.22.784-1.3 1.162-1.3 1.162z"/>
+    </svg>
+  ),
   link: "⌘",
 };
 
