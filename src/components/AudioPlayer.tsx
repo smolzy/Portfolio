@@ -322,6 +322,7 @@ export default function AudioPlayer({
 
       {/* Cyber Y2K Player Widget */}
       <div
+        className="audio-player-widget"
         style={{
           position: "fixed",
           bottom: "20px",
@@ -382,7 +383,7 @@ export default function AudioPlayer({
           </button>
 
           {/* Track Info */}
-          <div style={{ display: "flex", flexDirection: "column", maxWidth: "160px" }}>
+          <div className="audio-player-track-info" style={{ display: "flex", flexDirection: "column", maxWidth: "160px" }}>
             <span
               style={{
                 fontSize: "8px",
@@ -417,7 +418,9 @@ export default function AudioPlayer({
               fontSize: "9px",
             }}
           >
-            {isPlaying && !isMuted && !autoplayBlocked ? "PAUSE" : "ENABLE AUDIO"}
+            <span className="audio-player-btn-play-label">
+              {isPlaying && !isMuted && !autoplayBlocked ? "PAUSE" : "ENABLE AUDIO"}
+            </span>
           </button>
 
           {/* Mute Button */}

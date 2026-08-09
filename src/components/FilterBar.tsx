@@ -11,6 +11,7 @@ export default function FilterBar({ tags, activeTag, onTagChange }: FilterBarPro
 
   return (
     <div
+      className="filter-bar-wrap"
       style={{
         display: "flex",
         gap: "6px",

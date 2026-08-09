@@ -293,6 +293,7 @@ export default function Lightbox({
 
               {/* Window Controls */}
               <div
+                className="lightbox-titlebar-controls"
                 style={{
                   display: "flex",
                   gap: "6px",
@@ -302,7 +303,7 @@ export default function Lightbox({
               >
                 <button
                   onClick={() => setIsFullscreen(true)}
-                  className="y2k-btn y2k-btn-ghost"
+                  className="y2k-btn y2k-btn-ghost btn-fullscreen"
                   style={{ padding: "3px 8px", fontSize: "9px" }}
                   title="View Fullscreen 4K"
                 >
@@ -390,6 +391,7 @@ export default function Lightbox({
                   alt={image.title}
                   width={image.width}
                   height={image.height}
+                  className="lightbox-image"
                   style={{
                     display: "block",
                     maxWidth: "100%",
@@ -458,7 +460,7 @@ export default function Lightbox({
                 </div>
 
                 {/* Action Buttons */}
-                <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
+                <div className="lightbox-meta-actions" style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
                   <button
                     onClick={handleCopyImage}
                     className="y2k-btn y2k-btn-ghost"

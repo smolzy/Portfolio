@@ -14,7 +14,8 @@ function useColumnCount() {
   useEffect(() => {
     const updateColumns = () => {
       const w = window.innerWidth;
-      if (w < 640) setColumns(2);
+      if (w < 360) setColumns(1);
+      else if (w < 640) setColumns(2);
       else if (w < 1000) setColumns(3);
       else setColumns(4);
     };

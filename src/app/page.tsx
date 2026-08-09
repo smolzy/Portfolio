@@ -65,9 +65,9 @@ export default function Home() {
       <main style={{ position: "relative", zIndex: 1 }}>
         {/* ── Header ────────────────────────────────────────────────── */}
         <header
+          className="site-header"
           style={{
             borderBottom: "1px solid var(--border-default)",
-            padding: "0 32px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -104,6 +104,7 @@ export default function Home() {
               ZERICARD
             </span>
             <span
+              className="header-subtitle"
               style={{
                 fontFamily: "var(--font-mono)",
                 fontSize: "9px",
@@ -178,8 +179,8 @@ export default function Home() {
 
         {/* ── Hero / About ──────────────────────────────────────────── */}
         <section
+          className="hero-section"
           style={{
-            padding: "48px 32px 36px",
             borderBottom: "1px solid var(--border-default)",
             position: "relative",
             overflow: "hidden",
@@ -334,18 +335,15 @@ export default function Home() {
         </section>
 
         {/* ── Gallery ───────────────────────────────────────────────── */}
-        <section style={{ padding: "28px 32px 60px" }}>
+        <section className="gallery-section">
           <Gallery />
         </section>
 
         {/* ── Footer ────────────────────────────────────────────────── */}
         <footer
+          className="site-footer"
           style={{
             borderTop: "1px solid var(--border-default)",
-            padding: "16px 32px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
             background: "var(--bg-surface)",
           }}
         >

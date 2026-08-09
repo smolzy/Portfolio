@@ -344,3 +344,142 @@ body {
     min-width: 160px;
   }
 }
+
+/* ─── Site Layout Responsive ─────────────────────────────────────── */
+.site-header {
+  padding: 0 32px;
+}
+.hero-section {
+  padding: 48px 32px 36px;
+}
+.gallery-section {
+  padding: 28px 32px 60px;
+}
+.site-footer {
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ─── Glitch Animation ───────────────────────────────────────────── */
+@keyframes glitch {
+  0%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  20% { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 1px); }
+  40% { clip-path: inset(50% 0 30% 0); transform: translate(2px, -1px); }
+  60% { clip-path: inset(70% 0 10% 0); transform: translate(-1px, 2px); }
+  80% { clip-path: inset(10% 0 80% 0); transform: translate(1px, -2px); }
+}
+
+/* ─── Header nav: wrap on small screens ─────────────────────────── */
+.site-header nav {
+  flex-wrap: wrap;
+}
+
+/* ─── Tablet (max 767px) ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .site-header {
+    padding: 0 16px;
+    height: auto;
+    min-height: 56px;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .site-header nav {
+    gap: 4px;
+  }
+
+  .hero-section {
+    padding: 28px 16px 24px;
+  }
+
+  .gallery-section {
+    padding: 20px 16px 40px;
+  }
+
+  .site-footer {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* Lightbox: action buttons wrap nicely */
+  .lightbox-meta-actions {
+    justify-content: flex-start !important;
+  }
+
+  /* Lightbox titlebar controls: hide fullscreen on mobile */
+  .lightbox-titlebar-controls .btn-fullscreen {
+    display: none;
+  }
+
+  /* AudioPlayer widget: compact on tablet */
+  .audio-player-widget {
+    padding: 5px 8px !important;
+    gap: 6px !important;
+  }
+  .audio-player-track-info {
+    display: none;
+  }
+}
+
+/* ─── Mobile portrait (max 479px) ───────────────────────────────── */
+@media (max-width: 479px) {
+  .site-header {
+    padding: 8px 12px;
+  }
+
+  /* Hide the "GPOSE // FFXIV" subtitle on very small screens */
+  .header-subtitle {
+    display: none;
+  }
+
+  .hero-section {
+    padding: 20px 12px 20px;
+  }
+
+  .gallery-section {
+    padding: 16px 12px 32px;
+  }
+
+  .site-footer {
+    padding: 10px 12px;
+  }
+
+  /* AudioPlayer: very compact, icon + mute only */
+  .audio-player-widget {
+    padding: 4px 8px !important;
+    gap: 4px !important;
+    bottom: 12px !important;
+    right: 12px !important;
+  }
+  .audio-player-track-info {
+    display: none;
+  }
+  .audio-player-btn-play-label {
+    display: none;
+  }
+
+  /* Lightbox: reduce image height to leave room for controls */
+  .lightbox-image {
+    max-height: 45vh !important;
+  }
+
+  /* Lightbox: stack action buttons vertically */
+  .lightbox-meta-actions {
+    width: 100%;
+  }
+
+  /* Gallery filter bar: scrollable horizontally */
+  .filter-bar-wrap {
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+    padding-bottom: 4px;
+  }
+}
