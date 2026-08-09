@@ -34,7 +34,7 @@ export default function AudioPlayer({
   // States
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [volume, setVolume] = useState(0.5); // 0.0 to 1.0
+  const [volume, setVolume] = useState(0.2); // 0.0 to 1.0
   const [showVolume, setShowVolume] = useState(false);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
 
@@ -64,7 +64,7 @@ export default function AudioPlayer({
       if (ytPlayerRef.current) {
         try {
           ytPlayerRef.current.destroy();
-        } catch {}
+        } catch { }
       }
 
       ytPlayerRef.current = new window.YT.Player(ytContainerId, {
@@ -87,7 +87,7 @@ export default function AudioPlayer({
 
             const savedVol = localStorage.getItem("zericard_bgm_vol");
             const savedMuted = localStorage.getItem("zericard_bgm_muted");
-            const volNum = savedVol !== null ? parseFloat(savedVol) : 0.5;
+            const volNum = savedVol !== null ? parseFloat(savedVol) : 0.2;
 
             target.setVolume(volNum * 100);
 
@@ -152,7 +152,7 @@ export default function AudioPlayer({
       if (ytPlayerRef.current && typeof ytPlayerRef.current.playVideo === "function") {
         const savedMuted = localStorage.getItem("zericard_bgm_muted");
         const savedVol = localStorage.getItem("zericard_bgm_vol");
-        const volNum = savedVol !== null ? parseFloat(savedVol) : 0.5;
+        const volNum = savedVol !== null ? parseFloat(savedVol) : 0.2;
 
         ytPlayerRef.current.setVolume(volNum * 100);
 
@@ -160,12 +160,12 @@ export default function AudioPlayer({
           try {
             ytPlayerRef.current.unMute();
             setIsMuted(false);
-          } catch {}
+          } catch { }
         }
         try {
           ytPlayerRef.current.playVideo();
           setIsPlaying(true);
-        } catch {}
+        } catch { }
       }
     };
 
@@ -181,7 +181,7 @@ export default function AudioPlayer({
       if (ytPlayerRef.current) {
         try {
           ytPlayerRef.current.destroy();
-        } catch {}
+        } catch { }
       }
     };
   }, [ytVideoId, enabled, url]);
@@ -195,7 +195,7 @@ export default function AudioPlayer({
 
     const audio = new Audio(url);
     audio.loop = true;
-    audio.volume = savedVol !== null ? parseFloat(savedVol) : 0.5;
+    audio.volume = savedVol !== null ? parseFloat(savedVol) : 0.2;
     audio.muted = savedMuted === "true";
     audioRef.current = audio;
 
@@ -208,7 +208,7 @@ export default function AudioPlayer({
           .then(() => {
             setIsPlaying(true);
           })
-          .catch(() => {});
+          .catch(() => { });
       }
     };
 
@@ -288,7 +288,7 @@ export default function AudioPlayer({
           .then(() => {
             setIsPlaying(true);
           })
-          .catch(() => {});
+          .catch(() => { });
       }
     }
   };
@@ -480,7 +480,11 @@ export default function AudioPlayer({
                   onChange={(e) => {
                     const newVol = parseFloat(e.target.value);
                     setVolume(newVol);
-                    if (newVol > 0 && isMuted) setIsMuted(false);
+                    if (newVol === 0) {
+                      setIsMuted(true);
+                    } else if (isMuted) {
+                      setIsMuted(false);
+                    }
                   }}
                   style={{
                     accentColor: "var(--cyan)",
