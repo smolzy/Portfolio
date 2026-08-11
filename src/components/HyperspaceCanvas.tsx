@@ -18,8 +18,9 @@ export default function HyperspaceCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const STAR_COUNT = 1000;
-    // Speed: 2.5 feels like gentle warp — not too crazy
+    // Reduce star count on mobile for better performance
+    const isMobile = window.innerWidth < 768;
+    const STAR_COUNT = isMobile ? 350 : 1000;
     const SPEED = 10;
 
     let W = window.innerWidth;
@@ -45,12 +46,19 @@ export default function HyperspaceCanvas() {
     });
 
     let raf: number;
+    let paused = false;
 
     const tick = () => {
+      if (paused) return;
       ctx.clearRect(0, 0, W, H);
 
       const cx = W / 2;
       const cy = H / 2;
+
+      const currentAttr = document.documentElement.getAttribute("data-theme");
+      const isDark =
+        currentAttr === "dark" ||
+        (!currentAttr && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
       for (const s of stars) {
         s.pz = s.z;
@@ -82,9 +90,6 @@ export default function HyperspaceCanvas() {
         const size = Math.max(0.15, progress * 2.2);
         const opacity = progress * 0.28;
 
-        const currentAttr = document.documentElement.getAttribute("data-theme");
-        const isDark = currentAttr === "dark" || (!currentAttr && window.matchMedia("(prefers-color-scheme: dark)").matches);
-
         ctx.beginPath();
         ctx.strokeStyle = isDark
           ? `rgba(0, 240, 255, ${opacity * 1.4})`
@@ -98,12 +103,26 @@ export default function HyperspaceCanvas() {
       raf = requestAnimationFrame(tick);
     };
 
+    // Pause animation when tab is not visible (saves CPU/battery)
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        paused = true;
+        cancelAnimationFrame(raf);
+      } else {
+        paused = false;
+        tick();
+      }
+    };
+
     tick();
 
     window.addEventListener("resize", setup);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", setup);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
@@ -116,7 +135,6 @@ export default function HyperspaceCanvas() {
         inset: 0,
         width: "100%",
         height: "100%",
-        // Sits behind everything, never captures pointer events
         zIndex: 0,
         pointerEvents: "none",
       }}

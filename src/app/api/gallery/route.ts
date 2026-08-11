@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import cloudinary, { FOLDER } from "@/lib/cloudinary";
 import { CloudinaryResource, GposeImage } from "@/types";
 
+// Cache gallery results for 60 seconds to avoid hammering Cloudinary on each visit
+export const revalidate = 60;
+
 export async function GET() {
+
   try {
     const result = await cloudinary.api.resources({
       type: "upload",
@@ -12,20 +16,23 @@ export async function GET() {
       tags: true,
     });
 
+    // Helper: inject Cloudinary transformation into secure_url
+    // e.g. .../image/upload/f_auto,q_auto/...
+    const optimizeUrl = (url: string) =>
+      url.replace("/image/upload/", "/image/upload/f_auto,q_auto/");
+
     const images: GposeImage[] = result.resources.map(
       (resource: CloudinaryResource) => ({
         public_id: resource.public_id,
-        secure_url: resource.secure_url,
+        secure_url: optimizeUrl(resource.secure_url),
         width: resource.width,
         height: resource.height,
         title: resource.context?.custom?.title || "Untitled",
-        zone: resource.context?.custom?.zone || "",
-        job: resource.context?.custom?.job || "",
-        preset: resource.context?.custom?.preset || "",
         tags: resource.tags || [],
         created_at: resource.created_at,
       })
     );
+
 
     // Sort by most recent first
     images.sort(

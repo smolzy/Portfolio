@@ -2,18 +2,38 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Zericard - Gpose Portfolio",
-  description: "My own portfolio for my ffxiv gposes.",
-  keywords: ["FFXIV", "Gpose", "Zericard", "Final Fantasy XIV", "screenshots", "portfolio"],
+  title: "Zericard — GPose Portfolio · FFXIV Screenshots",
+  description:
+    "Portfolio de captures GPose FFXIV par Zericard. Lumière, atmosphère et silences d'Éorzéa — photographie virtuelle Final Fantasy XIV.",
+  keywords: [
+    "FFXIV",
+    "GPose",
+    "Zericard",
+    "Final Fantasy XIV",
+    "screenshots",
+    "portfolio",
+    "photographie virtuelle",
+    "Éorzéa",
+    "gpose photography",
+  ],
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
     apple: "/icon.svg",
   },
   openGraph: {
-    title: "Zericard - Gpose Portfolio",
-    description: "My own portfolio for my ffxiv gposes.",
+    title: "Zericard — GPose Portfolio · FFXIV",
+    description:
+      "Captures GPose FFXIV par Zericard. Lumière, atmosphère et silences d'Éorzéa.",
     type: "website",
+    url: "https://zericard.com",
+    siteName: "Zericard Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zericard — GPose Portfolio · FFXIV",
+    description:
+      "Captures GPose FFXIV par Zericard. Lumière, atmosphère et silences d'Éorzéa.",
   },
 };
 
@@ -23,8 +43,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <head>
+        {/* Preconnect to Cloudinary CDN for faster image loads */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        {/* Viewport meta for mobile */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

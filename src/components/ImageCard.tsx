@@ -7,9 +7,10 @@ import { GposeImage } from "@/types";
 interface ImageCardProps {
   image: GposeImage;
   onClick: () => void;
+  priority?: boolean;
 }
 
-export default function ImageCard({ image, onClick }: ImageCardProps) {
+export default function ImageCard({ image, onClick, priority = false }: ImageCardProps) {
   return (
     <motion.div
       className="masonry-item image-card-wrapper"
@@ -44,6 +45,7 @@ export default function ImageCard({ image, onClick }: ImageCardProps) {
               objectFit: "contain",
             }}
             sizes="(max-width: 640px) 50vw, (max-width: 900px) 33vw, 25vw"
+            priority={priority}
           />
         </motion.div>
 

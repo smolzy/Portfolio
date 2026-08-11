@@ -8,6 +8,9 @@ import ImageCard from "./ImageCard";
 import FilterBar from "./FilterBar";
 import Lightbox from "./Lightbox";
 
+// Tracks which images have been assigned 'priority' prop (first row visible above fold)
+const PRIORITY_COUNT = 4;
+
 function useColumnCount() {
   const [columns, setColumns] = useState(3);
 
@@ -220,20 +223,25 @@ export default function Gallery() {
               }}
             >
               <AnimatePresence>
-                {colImages.map((image, i) => (
-                  <motion.div
-                    key={image.public_id}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ delay: i * 0.04, duration: 0.35 }}
-                  >
-                    <ImageCard
-                      image={image}
-                      onClick={() => handleSelectImage(image)}
-                    />
-                  </motion.div>
-                ))}
+                {colImages.map((image, i) => {
+                  // Global index: first row items across all columns get priority
+                  const globalIdx = colIdx + i * columnCount;
+                  return (
+                    <motion.div
+                      key={image.public_id}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ delay: Math.min(i * 0.04, 0.3), duration: 0.35 }}
+                    >
+                      <ImageCard
+                        image={image}
+                        onClick={() => handleSelectImage(image)}
+                        priority={globalIdx < PRIORITY_COUNT}
+                      />
+                    </motion.div>
+                  );
+                })}
               </AnimatePresence>
             </div>
           ))}
