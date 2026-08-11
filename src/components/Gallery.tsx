@@ -156,24 +156,32 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* Loading */}
+      {/* Loading — skeleton masonry grid reserves space to avoid CLS */}
       {loading && (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "80px 0",
-            fontFamily: "var(--font-mono)",
-            color: "var(--silver-dim)",
-            fontSize: "12px",
-            letterSpacing: "0.1em",
-          }}
-        >
-          <motion.span
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-          >
-            LOADING ASSETS...
-          </motion.span>
+        <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+          {Array.from({ length: columnCount }).map((_, colIdx) => (
+            <div
+              key={colIdx}
+              style={{ flex: 1, display: "flex", flexDirection: "column", gap: "12px" }}
+            >
+              {/* Skeleton cards with varying heights that mimic the real grid */}
+              {[colIdx % 2 === 0 ? "75%" : "56%", "56%", colIdx % 2 === 0 ? "56%" : "75%"].map(
+                (pt, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      width: "100%",
+                      paddingTop: pt,
+                      borderRadius: "var(--radius-md)",
+                      background: "var(--bg-surface)",
+                      border: "1px solid var(--border-subtle)",
+                      animation: `pulse 1.8s ease-in-out ${i * 0.15}s infinite`,
+                    }}
+                  />
+                )
+              )}
+            </div>
+          ))}
         </div>
       )}
 

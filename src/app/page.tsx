@@ -42,7 +42,11 @@ const ICON_MAP: Record<string, ReactNode> = {
 };
 
 export default function Home() {
-  const [about, setAbout] = useState<AboutData>({ bio: "", socials: [] });
+  // Show default bio immediately to avoid LCP delay waiting for API
+  const [about, setAbout] = useState<AboutData>({
+    bio: "Hai!! I'm Zericard also known as Zeri, I'm just having fun making gposes (not a professional photographer, I just love the art of it).",
+    socials: [],
+  });
 
   useEffect(() => {
     fetch("/api/about")
@@ -240,24 +244,22 @@ export default function Home() {
               >
                 Zericard
               </h1>
-              {about.bio && (
-                <motion.p
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "14px",
-                    color: "var(--silver)",
-                    lineHeight: 1.75,
-                    fontWeight: 400,
-                    maxWidth: "520px",
-                    whiteSpace: "pre-wrap",
-                  }}
-                >
-                  {about.bio}
-                </motion.p>
-              )}
+              <motion.p
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "14px",
+                  color: "var(--silver)",
+                  lineHeight: 1.75,
+                  fontWeight: 400,
+                  maxWidth: "520px",
+                  whiteSpace: "pre-wrap",
+                }}
+              >
+                {about.bio}
+              </motion.p>
             </div>
 
             {/* Right / Bottom on mobile: social cards */}

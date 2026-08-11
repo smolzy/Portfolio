@@ -133,6 +133,12 @@ body {
   width: 100%;
 }
 
+/* ─── Skeleton pulse animation (gallery loading state) ───────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.75; }
+}
+
 /* ─── Custom Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
