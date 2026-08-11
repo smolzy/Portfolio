@@ -340,7 +340,7 @@ export default function Home() {
         </section>
 
         {/* ── Gallery ───────────────────────────────────────────────── */}
-        <section className="gallery-section">
+        <section className="gallery-section" style={{ minHeight: "600px" }}>
           <Gallery />
         </section>
 

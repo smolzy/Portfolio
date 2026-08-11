@@ -45,8 +45,7 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
-        {/* Preconnect to Cloudinary CDN for faster image loads */}
-        <link rel="preconnect" href="https://res.cloudinary.com" />
+        {/* dns-prefetch for Cloudinary - gallery loads async so we skip preconnect */}
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         {/* Viewport meta for mobile */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />

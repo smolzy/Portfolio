@@ -1,5 +1,28 @@
 import type { NextConfig } from "next";
 
+const securityHeaders = [
+  {
+    key: "X-Content-Type-Options",
+    value: "nosniff",
+  },
+  {
+    key: "X-Frame-Options",
+    value: "SAMEORIGIN",
+  },
+  {
+    key: "X-XSS-Protection",
+    value: "1; mode=block",
+  },
+  {
+    key: "Referrer-Policy",
+    value: "strict-origin-when-cross-origin",
+  },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=()",
+  },
+];
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -11,13 +34,19 @@ const nextConfig: NextConfig = {
     ],
     // Enable modern formats for browsers that support them
     formats: ["image/avif", "image/webp"],
-    // Cloudinary handles its own optimization (f_auto,q_auto),
-    // disable Next.js image optimization to avoid double-processing
-    // Keep minimumCacheTTL high to leverage CDN caching
     minimumCacheTTL: 3600, // 1 hour
   },
   // Compress responses
   compress: true,
+
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

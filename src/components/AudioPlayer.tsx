@@ -37,6 +37,8 @@ export default function AudioPlayer({
   const [volume, setVolume] = useState(0.2); // 0.0 to 1.0
   const [showVolume, setShowVolume] = useState(false);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  // Lazy: only load YouTube after user has interacted (fixes LCP)
+  const [ytReady, setYtReady] = useState(false);
 
   // Refs
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -52,9 +54,42 @@ export default function AudioPlayer({
     if (savedVol !== null) setVolume(parseFloat(savedVol));
   }, []);
 
-  // ── 1. YOUTUBE MODE ──────────────────────────────────────────────
+  // ── LAZY YOUTUBE ACTIVATION ───────────────────────────────────────
+  // Wait for first user interaction before loading YouTube JS (saves ~850 Kio on initial load)
   useEffect(() => {
-    if (!enabled || !url || !ytVideoId) return;
+    if (!enabled || !ytVideoId) return;
+
+    // If already interacted (e.g. via WelcomeModal), activate immediately
+    if (window._zericard_interacted) {
+      setYtReady(true);
+      return;
+    }
+
+    // Otherwise activate on first user interaction
+    const activate = () => {
+      window._zericard_interacted = true;
+      setYtReady(true);
+      setAutoplayBlocked(false);
+    };
+
+    // Show "click to activate" state immediately
+    setAutoplayBlocked(true);
+
+    window.addEventListener("pointerdown", activate, { once: true });
+    window.addEventListener("click", activate, { once: true });
+    window.addEventListener("keydown", activate, { once: true });
+
+    return () => {
+      window.removeEventListener("pointerdown", activate);
+      window.removeEventListener("click", activate);
+      window.removeEventListener("keydown", activate);
+    };
+  }, [ytVideoId, enabled]);
+
+  // ── 1. YOUTUBE MODE ──────────────────────────────────────────────
+  // Only runs after ytReady is true (after first user interaction)
+  useEffect(() => {
+    if (!enabled || !url || !ytVideoId || !ytReady) return;
 
     let isSubscribed = true;
 
@@ -91,24 +126,14 @@ export default function AudioPlayer({
 
             target.setVolume(volNum * 100);
 
-            const hasInteracted = Boolean(window._zericard_interacted);
-
-            if (!hasInteracted) {
-              // Mute first to bypass Chrome silent autoplay block
+            if (savedMuted === "true") {
               target.mute();
-              target.playVideo();
-              setIsPlaying(true);
-              setAutoplayBlocked(true);
             } else {
-              if (savedMuted === "true") {
-                target.mute();
-              } else {
-                target.unMute();
-              }
-              target.playVideo();
-              setIsPlaying(true);
-              setAutoplayBlocked(false);
+              target.unMute();
             }
+            target.playVideo();
+            setIsPlaying(true);
+            setAutoplayBlocked(false);
           },
           onStateChange: (event: any) => {
             if (!isSubscribed) return;
@@ -144,47 +169,15 @@ export default function AudioPlayer({
       initYouTubePlayer();
     }
 
-    // Global interaction listener to un-mute and unlock audio on first click/touch
-    const unlockAudio = () => {
-      window._zericard_interacted = true;
-      setAutoplayBlocked(false);
-
-      if (ytPlayerRef.current && typeof ytPlayerRef.current.playVideo === "function") {
-        const savedMuted = localStorage.getItem("zericard_bgm_muted");
-        const savedVol = localStorage.getItem("zericard_bgm_vol");
-        const volNum = savedVol !== null ? parseFloat(savedVol) : 0.2;
-
-        ytPlayerRef.current.setVolume(volNum * 100);
-
-        if (savedMuted !== "true") {
-          try {
-            ytPlayerRef.current.unMute();
-            setIsMuted(false);
-          } catch { }
-        }
-        try {
-          ytPlayerRef.current.playVideo();
-          setIsPlaying(true);
-        } catch { }
-      }
-    };
-
-    window.addEventListener("pointerdown", unlockAudio, { once: true });
-    window.addEventListener("click", unlockAudio, { once: true });
-    window.addEventListener("keydown", unlockAudio, { once: true });
-
     return () => {
       isSubscribed = false;
-      window.removeEventListener("pointerdown", unlockAudio);
-      window.removeEventListener("click", unlockAudio);
-      window.removeEventListener("keydown", unlockAudio);
       if (ytPlayerRef.current) {
         try {
           ytPlayerRef.current.destroy();
         } catch { }
       }
     };
-  }, [ytVideoId, enabled, url]);
+  }, [ytVideoId, enabled, url, ytReady]);
 
   // ── 2. DIRECT MP3 / AUDIO MODE ───────────────────────────────────
   useEffect(() => {
@@ -263,7 +256,13 @@ export default function AudioPlayer({
   // ── CONTROLS ─────────────────────────────────────────────────────
   const togglePlay = () => {
     window._zericard_interacted = true;
-    setAutoplayBlocked(false);
+
+    // If YouTube not loaded yet, trigger load
+    if (ytVideoId && !ytReady) {
+      setYtReady(true);
+      setAutoplayBlocked(false);
+      return;
+    }
 
     if (ytVideoId && ytPlayerRef.current) {
       if (isPlaying && !isMuted) {
@@ -275,6 +274,7 @@ export default function AudioPlayer({
         ytPlayerRef.current.playVideo();
         setIsPlaying(true);
       }
+      setAutoplayBlocked(false);
       return;
     }
 
@@ -303,8 +303,8 @@ export default function AudioPlayer({
 
   return (
     <>
-      {/* Hidden container for YouTube iframe player */}
-      {ytVideoId && (
+      {/* Hidden container for YouTube iframe player — only rendered after user interaction */}
+      {ytVideoId && ytReady && (
         <div
           style={{
             position: "fixed",
@@ -357,6 +357,7 @@ export default function AudioPlayer({
           {/* Equalizer animation / Icon */}
           <button
             onClick={togglePlay}
+            aria-label={isPlaying ? "Pause BGM" : "Play BGM"}
             style={{
               background: "transparent",
               border: "none",
@@ -367,7 +368,6 @@ export default function AudioPlayer({
               height: "16px",
               padding: 0,
             }}
-            title={isPlaying ? "Pause BGM" : "Play BGM"}
           >
             {isPlaying && !isMuted && !autoplayBlocked ? (
               <div style={{ display: "flex", alignItems: "flex-end", gap: "2px", height: "12px" }}>
@@ -413,6 +413,7 @@ export default function AudioPlayer({
           <button
             onClick={togglePlay}
             className="y2k-btn y2k-btn-primary"
+            aria-label={isPlaying && !isMuted && !autoplayBlocked ? "Pause music" : "Enable audio"}
             style={{
               padding: "3px 8px",
               fontSize: "9px",
@@ -427,12 +428,12 @@ export default function AudioPlayer({
           <button
             onClick={toggleMute}
             className="y2k-btn y2k-btn-ghost"
+            aria-label={isMuted ? "Unmute music" : "Mute music"}
             style={{
               padding: "3px 8px",
               fontSize: "9px",
               color: isMuted || autoplayBlocked ? "rgba(255,100,120,0.9)" : "var(--silver)",
             }}
-            title={isMuted ? "Unmute" : "Mute"}
           >
             {isMuted || autoplayBlocked ? "MUTED" : "VOL"}
           </button>
@@ -440,6 +441,7 @@ export default function AudioPlayer({
           {/* Volume popover toggle button */}
           <button
             onClick={() => setShowVolume((v) => !v)}
+            aria-label="Toggle volume controls"
             style={{
               background: "transparent",
               border: "none",
@@ -480,6 +482,7 @@ export default function AudioPlayer({
                   max="1"
                   step="0.05"
                   value={isMuted ? 0 : volume}
+                  aria-label="Volume"
                   onChange={(e) => {
                     const newVol = parseFloat(e.target.value);
                     setVolume(newVol);
