@@ -2,18 +2,17 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Zericard — GPose Portfolio",
-  description:
-    "Portfolio GPose de Zericard — photographie virtuelle FFXIV. Captures d'écran, lumière et silence d'Éorzéa.",
-  keywords: ["FFXIV", "GPose", "Zericard", "Final Fantasy XIV", "screenshots", "portfolio"],
+  title: "Zericard - Gpose Portfolio",
+  description: "My own portfolio for my ffxiv gposes.",
+  keywords: ["FFXIV", "Gpose", "Zericard", "Final Fantasy XIV", "screenshots", "portfolio"],
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
     apple: "/icon.svg",
   },
   openGraph: {
-    title: "Zericard — GPose Portfolio",
-    description: "Portfolio GPose FFXIV de Zericard",
+    title: "Zericard - Gpose Portfolio",
+    description: "My own portfolio for my ffxiv gposes.",
     type: "website",
   },
 };
