@@ -98,15 +98,24 @@ export default function AdminPage() {
   const handleSaveProfile = async () => {
     setSavingProfile(true);
     try {
-      await fetch("/api/about", {
+      const res = await fetch("/api/about", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(about),
       });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Save failed");
+      }
+
       setProfileSaved(true);
       setTimeout(() => setProfileSaved(false), 3000);
-    } catch {}
-    setSavingProfile(false);
+    } catch (err: any) {
+      alert("Erreur lors de la sauvegarde : " + (err?.message || "Échec de l'enregistrement"));
+    } finally {
+      setSavingProfile(false);
+    }
   };
 
   const updateSocial = (idx: number, field: keyof Social, value: string) => {
