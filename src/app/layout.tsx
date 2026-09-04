@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Zericard — GPose Portfolio · FFXIV Screenshots",
+  title: "Zericard GPose Portfolio",
   description:
-    "Portfolio de captures GPose FFXIV par Zericard. Lumière, atmosphère et silences d'Éorzéa — photographie virtuelle Final Fantasy XIV.",
+    "Zericard's own FFXIV Gpose portfolio",
   keywords: [
     "FFXIV",
     "GPose",
@@ -22,18 +22,18 @@ export const metadata: Metadata = {
     apple: "/icon.svg",
   },
   openGraph: {
-    title: "Zericard — GPose Portfolio · FFXIV",
+    title: "Zericard GPose Portfolio",
     description:
-      "Captures GPose FFXIV par Zericard. Lumière, atmosphère et silences d'Éorzéa.",
+      "Zericard's own FFXIV Gpose portfolio",
     type: "website",
     url: "https://zericard.com",
     siteName: "Zericard Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zericard — GPose Portfolio · FFXIV",
+    title: "Zericard GPose Portfolio",
     description:
-      "Captures GPose FFXIV par Zericard. Lumière, atmosphère et silences d'Éorzéa.",
+      "Zericard's own FFXIV Gpose portfolio",
   },
 };
 
