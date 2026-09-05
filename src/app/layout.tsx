@@ -35,6 +35,9 @@ export const metadata: Metadata = {
     description:
       "Zericard's own FFXIV Gpose portfolio",
   },
+  other: {
+    "dns-prefetch": "https://res.cloudinary.com",
+  },
 };
 
 export default function RootLayout({
@@ -45,10 +48,6 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
-        {/* dns-prefetch for Cloudinary - gallery loads async so we skip preconnect */}
-        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
-        {/* Viewport meta for mobile */}
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
