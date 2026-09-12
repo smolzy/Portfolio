@@ -85,8 +85,13 @@ export default function AdminPage() {
     setActiveTab("manage");
   };
 
-  const handleDelete = (publicId: string) => {
-    setImages((prev) => prev.filter((img) => img.public_id !== publicId));
+  const allExistingTags = Array.from(
+    new Set(images.flatMap((img) => img.tags || []))
+  ).sort();
+
+  const handleDelete = (publicIdOrIds: string | string[]) => {
+    const ids = Array.isArray(publicIdOrIds) ? publicIdOrIds : [publicIdOrIds];
+    setImages((prev) => prev.filter((img) => !ids.includes(img.public_id)));
   };
 
   const handleUpdate = (updatedImage: GposeImage) => {
@@ -235,6 +240,7 @@ export default function AdminPage() {
         >
           {[
             { label: "TOTAL ASSETS", value: images.length.toString().padStart(3, "0") },
+            { label: "UNIQUE TAGS", value: allExistingTags.length.toString().padStart(3, "0") },
             { label: "CLOUDINARY", value: "CONNECTED" },
             { label: "STATUS", value: "ONLINE" },
           ].map((stat) => (
@@ -321,7 +327,10 @@ export default function AdminPage() {
           {activeTab === "upload" && (
             <Y2KFrame title="UPLOAD_ASSET — Cloudinary">
               <div style={{ padding: "20px" }}>
-                <AdminUpload onUploadSuccess={handleUploadSuccess} />
+                <AdminUpload
+                  onUploadSuccess={handleUploadSuccess}
+                  existingTags={allExistingTags}
+                />
               </div>
             </Y2KFrame>
           )}

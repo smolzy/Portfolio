@@ -11,18 +11,23 @@ export async function DELETE(request: NextRequest) {
   }
 
   try {
-    const { public_id } = await request.json();
+    const body = await request.json();
+    const public_ids: string[] = Array.isArray(body.public_ids)
+      ? body.public_ids
+      : body.public_id
+      ? [body.public_id]
+      : [];
 
-    if (!public_id) {
+    if (public_ids.length === 0) {
       return NextResponse.json(
-        { error: "No public_id provided" },
+        { error: "No public_id or public_ids provided" },
         { status: 400 }
       );
     }
 
-    await cloudinary.uploader.destroy(public_id);
+    await Promise.all(public_ids.map((id) => cloudinary.uploader.destroy(id)));
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, count: public_ids.length });
   } catch (error) {
     console.error("Delete error:", error);
     return NextResponse.json({ error: "Delete failed" }, { status: 500 });

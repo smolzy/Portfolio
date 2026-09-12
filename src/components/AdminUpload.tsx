@@ -7,6 +7,7 @@ import { UploadFormData } from "@/types";
 
 interface AdminUploadProps {
   onUploadSuccess: () => void;
+  existingTags?: string[];
 }
 
 interface Notification {
@@ -15,7 +16,10 @@ interface Notification {
   message: string;
 }
 
-export default function AdminUpload({ onUploadSuccess }: AdminUploadProps) {
+export default function AdminUpload({
+  onUploadSuccess,
+  existingTags = [],
+}: AdminUploadProps) {
   const [dragOver, setDragOver] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -342,6 +346,53 @@ export default function AdminUpload({ onUploadSuccess }: AdminUploadProps) {
                     setForm((prev) => ({ ...prev, [key]: e.target.value }))
                   }
                 />
+                {key === "tags" && existingTags.length > 0 && (
+                  <div style={{ marginTop: "6px" }}>
+                    <span
+                      style={{
+                        display: "block",
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "8.5px",
+                        color: "var(--silver-dim)",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      TAGS EXISTANTS (cliquer pour ajouter/retirer) :
+                    </span>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+                      {existingTags.map((t) => {
+                        const current = form.tags
+                          .split(",")
+                          .map((s) => s.trim())
+                          .filter(Boolean);
+                        const isSelected = current.includes(t);
+                        return (
+                          <button
+                            key={t}
+                            type="button"
+                            onClick={() => {
+                              if (isSelected) {
+                                setForm((prev) => ({
+                                  ...prev,
+                                  tags: current.filter((tag) => tag !== t).join(", "),
+                                }));
+                              } else {
+                                setForm((prev) => ({
+                                  ...prev,
+                                  tags: current.concat(t).join(", "),
+                                }));
+                              }
+                            }}
+                            className={`tag-pill ${isSelected ? "active" : ""}`}
+                            style={{ fontSize: "9px", padding: "2px 6px" }}
+                          >
+                            {isSelected ? `✓ #${t}` : `+ #${t}`}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
 
