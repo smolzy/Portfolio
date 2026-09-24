@@ -32,17 +32,19 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // Scripts: self + inline (Next.js needs unsafe-inline for hydration)
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://www.youtube-nocookie.com https://s.ytimg.com",
       // Styles: self + inline + Google Fonts
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       // Fonts
       "font-src 'self' https://fonts.gstatic.com",
       // Images: self + Cloudinary + data URIs
-      "img-src 'self' data: blob: https://res.cloudinary.com",
+      "img-src 'self' data: blob: https://res.cloudinary.com https://i.ytimg.com https://img.youtube.com",
       // Media (video/audio)
       "media-src 'self' https://res.cloudinary.com",
       // Connections (fetch/XHR)
-      "connect-src 'self'",
+      "connect-src 'self' https://www.youtube.com https://www.youtube-nocookie.com",
+      // YouTube IFrame embeds
+      "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
       // No objects/embeds
       "object-src 'none'",
       // No framing from outside
