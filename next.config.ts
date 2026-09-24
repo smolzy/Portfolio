@@ -64,8 +64,9 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
-        // Restrict to the specific folder used by the app
-        pathname: "/*/image/upload/ffxiv-gpose/**",
+        // Restrict to image/upload paths only (blocks /video/, /raw/, etc.)
+        // The ** after upload covers version segments (e.g. v1234567/) before the folder
+        pathname: "/*/image/upload/**",
       },
     ],
     // Enable modern formats for browsers that support them
